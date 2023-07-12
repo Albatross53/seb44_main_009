@@ -37,7 +37,7 @@ dependencies {
 	annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.1.Final'
 
 	//mysql
-//	implementation 'mysql:mysql-connector-java:8.0.32'
+	implementation 'mysql:mysql-connector-java:8.0.32'
 
 	//testImplementation 'org.springframework.security:spring-security-test'
 
