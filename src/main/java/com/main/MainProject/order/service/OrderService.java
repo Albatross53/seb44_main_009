@@ -42,6 +42,9 @@ public class OrderService {
 
     public Order createOrder(long cartId, Address address, long memberId){
         Cart findCart = cartService.findVerifiedCart(cartId);
+        if(findCart.getCartProductList().size() < 1){
+            new BusinessLogicException(ExceptionCode.CART_IS_EMPTY);
+        }
         Member findMember = memberService.findVerifiedMember(memberId);
 
         Order order = new Order();
@@ -63,7 +66,7 @@ public class OrderService {
     private OrderProduct cartProductToOrderProduct(Order order, CartProduct cartProduct){
         OrderProduct orderProduct = new OrderProduct(cartProduct.getQuantity(), cartProduct.getProduct());
         if(orderProduct.getProduct().getCount() < orderProduct.getQuantity()){
-            new BusinessLogicException(ExceptionCode.QUANTITY_IS_MORE_THAN_PRODUCT_COUNT);
+            throw new BusinessLogicException(ExceptionCode.QUANTITY_IS_MORE_THAN_PRODUCT_COUNT);
         }else {
             orderProduct.getProduct().setCount(orderProduct.getProduct().getCount() - orderProduct.getQuantity());
         }
@@ -78,7 +81,7 @@ public class OrderService {
         Address findAddress = order.getAddress();
 
         Optional.ofNullable(address.getReceiverName())
-                .ifPresent(reciverName->findAddress.setReceiverName(reciverName));
+                .ifPresent(receiverName->findAddress.setReceiverName(receiverName));
         Optional.ofNullable(address.getZipcode())
                 .ifPresent(zipCode->findAddress.setZipcode(zipCode));
         Optional.ofNullable(address.getAddressDetails())
@@ -111,7 +114,7 @@ public class OrderService {
         if(getShippingStatus(orderId) < 4){
             findOrder.setOrderStatus(Order.OrderStatus.ORDER_CANCEL);
         }else {
-            throw new BusinessLogicException(ExceptionCode.ORDER_NOT_FOUND);
+            throw new BusinessLogicException(ExceptionCode.CANNOT_CHANGE_ORDER);
         }
 
         orderRepository.save(findOrder);
@@ -146,7 +149,7 @@ public class OrderService {
     //해당 회원이 주문한 회원인지 확인
     public void isOrderByMember(Order order, Member member){
         if(!order.getMember().equals(member)){
-            new BusinessLogicException(ExceptionCode.MEMBER_IS_NOT_MATCH_ORDER);
+            throw new BusinessLogicException(ExceptionCode.MEMBER_IS_NOT_MATCH_ORDER);
         }
     }
 
