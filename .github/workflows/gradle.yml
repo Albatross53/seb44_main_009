@@ -20,10 +20,10 @@ jobs:
     steps:
     - name: Access to secrets
       run: |
-        echo ${{ JWT_SECRET_KEY }}
-        echo ${{ RDS_URL }}
-        echo ${{ RDS_PASSWORD }}
-        echo ${{ RDS_USERNAME }}
+        echo ${{ secrets.JWT_SECRET_KEY }}
+        echo ${{ secrets.RDS_URL }}
+        echo ${{ secrets.RDS_PASSWORD }}
+        echo ${{ secrets.RDS_USERNAME }}
         
     - uses: actions/checkout@v3
 
