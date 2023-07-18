@@ -24,11 +24,11 @@ jobs:
 
     steps:
     - name: Access to secrets
-        run: |
-          echo $JWT_SECRET_KEY
-          echo $RDS_URL
-          echo $RDS_PASSWORD
-          echo $RDS_USERNAME
+      run: |
+        echo $JWT_SECRET_KEY
+        echo $RDS_URL
+        echo $RDS_PASSWORD
+        echo $RDS_USERNAME
           
     - uses: actions/checkout@v3
 
