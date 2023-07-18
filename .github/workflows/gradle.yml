@@ -16,9 +16,19 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    env:
+      JWT_SECRET_KEY: ${{ JWT_SECRET_KEY }}
+      RDS_URL: ${{ RDS_URL }}
+      RDS_PASSWORD: ${{ RDS_PASSWORD }}
+      RDS_USERNAME: ${{ RDS_USERNAME }}
 
     steps:
     - uses: actions/checkout@v3
+    - run: echo $JWT_SECRET_KEY    
+    - run: echo $RDS_URL
+    - run: echo $RDS_PASSWORD
+    - run: echo $RDS_USERNAME
+
     - name: Set up JDK 11
       uses: actions/setup-java@v3
       with:
