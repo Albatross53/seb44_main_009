@@ -21,7 +21,7 @@ jobs:
       RDS_URL: ${{ secrets.RDS_URL }}
       RDS_PASSWORD: ${{ secrets.RDS_PASSWORD }}
       RDS_USERNAME: ${{ secrets.RDS_USERNAME }}
-      AWS_REGION: %{{ secrets.AWS_REGION }}
+      AWS_REGION: ${{ secrets.AWS_REGION }}
       S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
       
     steps:
