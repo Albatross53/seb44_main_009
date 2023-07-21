@@ -10,25 +10,22 @@ spring:
     properties:
       hibernate:
         format_sql: true  # (3) SQL pretty print
-  sql:
-    init:
-      data-locations: classpath*:db/h2/data.sql
-  cloud:
-    aws:
-      credentials:
-        accessKey: ${AWS_ACCESS_KEY}
-        secretKey: ${AWS_SECRET_ACCESS_KEY}
-    s3:
-      bucket: jeonhyebeenbucket
+#  sql:
+#    init:
+#      data-locations: classpath:data.sql
+cloud:
+  aws:
+    credentials:
+      accessKey: ${AWS_ACCESS_KEY}
+      secretKey: ${AWS_SECRET_ACCESS_KEY}
     region:
-      static: ap-northeast-2
+      static: ${REGION}
+    stack:
+      auto: false
+    s3:
+      bucket: ${S3_BUCKET_NAME}
 
-logging:
-  level:
-    org:
-      springframework:
-        orm:
-          jpa: DEBUG
+
 server:
   servlet:
     encoding:
@@ -39,5 +36,5 @@ mail:
 jwt:
   key: ${JWT_SECRET_KEY}
   access-token-expiration-minutes: 40
-  refresh-token-expiration-minutes: 180
+  refresh-token-expiration-minutes: 420
 

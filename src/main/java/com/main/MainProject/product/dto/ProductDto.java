@@ -60,7 +60,6 @@ public class ProductDto {
 
         private int count;
 
-        @NotBlank(message = "공백이 아니어야 합니다.")
         private List<Size> sizes;
 
         private List<Color> colors;
@@ -85,6 +84,7 @@ public class ProductDto {
         private List<ColorDto.Response> colors;
         private PersonalColor personalColor;
         private String categoryName;
+        private String productImageName;
     }
 
 //    @Getter

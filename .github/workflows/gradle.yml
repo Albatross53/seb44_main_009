@@ -21,6 +21,8 @@ jobs:
       RDS_URL: ${{ secrets.RDS_URL }}
       RDS_PASSWORD: ${{ secrets.RDS_PASSWORD }}
       RDS_USERNAME: ${{ secrets.RDS_USERNAME }}
+      REGION: %{{REGION}}
+      S3_BUCKET_NAME: ${{S3_BUCKET_NAME}}
       
     steps:
     - name: Access to secrets
@@ -29,6 +31,8 @@ jobs:
         echo $RDS_URL
         echo $RDS_PASSWORD
         echo $RDS_USERNAME
+        echo $REGION
+        echo $S3_BUCKET_NAME
         
     - uses: actions/checkout@v3
 

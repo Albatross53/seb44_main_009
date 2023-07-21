@@ -1,4 +1,4 @@
-package com.main.MainProject.auth.config;
+package com.main.MainProject.config;
 
 import com.main.MainProject.auth.filter.JwtAuthenticationFilter;
 import com.main.MainProject.auth.filter.JwtVerificationFilter;
@@ -73,7 +73,7 @@ public class SecurityConfiguration {
                         .antMatchers(HttpMethod.DELETE,"/members").hasRole("USER")
                         //products
                         .antMatchers(HttpMethod.POST, "/products").hasRole("ADMIN")
-                        .antMatchers(HttpMethod.PATCH, "/products/*").hasRole("ADMIN")
+                        .antMatchers(HttpMethod.PATCH, "/products").hasRole("ADMIN")
                         .antMatchers(HttpMethod.DELETE, "/products/*").hasRole("ADMIN")
                         //category
                         .antMatchers(HttpMethod.POST, "/category").hasRole("ADMIN")
@@ -94,13 +94,20 @@ public class SecurityConfiguration {
                         .antMatchers(HttpMethod.GET, "/carts").hasRole("USER")
                         .antMatchers(HttpMethod.DELETE, "/carts/items/*").hasRole("USER")
                         //review
-                        .antMatchers(HttpMethod.POST, "/reviews/create/*/*").hasRole("USER")
-                        .antMatchers(HttpMethod.PATCH, "/reviews/update/*").hasRole("USER")
+                        .antMatchers(HttpMethod.POST, "/reviews").hasRole("USER")
+                        .antMatchers(HttpMethod.PATCH, "/reviews").hasRole("USER")
                         .antMatchers(HttpMethod.GET, "/reviews/findByMember").hasRole("USER")
                         .antMatchers(HttpMethod.DELETE, "/reviews/delete/*").hasRole("USER")
-                        //qna
+                        
                         //wishlist
-
+                        .antMatchers(HttpMethod.POST, "/wishlist").hasRole("USER")
+                        .antMatchers(HttpMethod.GET, "/wishlist").hasRole("USER")
+                        .antMatchers(HttpMethod.DELETE, "/wishlist").hasRole("USER")          
+                        //qna
+                        .antMatchers(HttpMethod.POST, "/qnas/postqna").hasRole("USER")
+                        .antMatchers(HttpMethod.PATCH,"/qnas/*").hasRole("USER")
+                        .antMatchers(HttpMethod.GET,"/qnas/qnabymember").hasRole("USER")
+                        .antMatchers(HttpMethod.DELETE,"/qnas/*").hasRole("USER")
                         .anyRequest().permitAll()
                 );
         return http.build();
@@ -120,6 +127,7 @@ public class SecurityConfiguration {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
+
 
     // 커스텀 LogoutSuccessHandler 구현 및 반환
     public LogoutSuccessHandler customLogoutSuccessHandler() {

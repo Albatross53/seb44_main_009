@@ -33,6 +33,7 @@ public class CustomAuthorityUtils {
                .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
                .collect(Collectors.toList());
        return authorities;
+
     }
 
     // DB 저장 용
@@ -42,4 +43,6 @@ public class CustomAuthorityUtils {
         }
         return USER_ROLES_STRING;
     }
+
 }
+

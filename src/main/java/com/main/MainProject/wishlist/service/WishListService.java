@@ -28,8 +28,8 @@ public class WishListService {
         this.productService = productService;
     }
 
-    public WishList addWish(WishList wishList) {
-        Member member = memberService.findVerifiedMember(wishList.getMemberId());
+    public WishList addWish(WishList wishList, long memberId) {
+        Member member = memberService.findVerifiedMember(memberId);
         Product product = productService.findVerifiedProduct(wishList.getProductId());
         List<Product> products = wishList.getProducts();
         wishList.setMember(member);
@@ -41,17 +41,18 @@ public class WishListService {
 
     public List<Product> findWishList(long memberId) {
         Member member = memberService.findVerifiedMember(memberId);
+
+        if (member.getWishList() == null) {
+            return null;
+        }
+
         WishList wishList = member.getWishList();
         List<Product> products = wishList.getProducts();
-//        if (products.isEmpty()) {
-//            throw new RuntimeException("찜목록이 비어있습니다.");
-//        }
-//        TODO: 찜목록이 비어 있으면 []로 빈배열로 생성되어 예외처리를 하지 않아도될것같습니다 - 확인해주세요
         return products;
     }
 
-    public void deleteWish(WishList wishList) {
-        Member member = memberService.findVerifiedMember(wishList.getMemberId());
+    public void deleteWish(WishList wishList, long memberId) {
+        Member member = memberService.findVerifiedMember(memberId);
         Product findProduct = productService.findProduct(wishList.getProductId());
         WishList findWish = member.getWishList();
         List<Product> products = findWish.getProducts();
@@ -62,10 +63,5 @@ public class WishListService {
         }
         }
         wishListRepository.save(findWish);
-    }
-    public void createWishList(Member member) {
-        WishList wishList = new WishList();
-        wishList.setMember(member);
-        wishListRepository.save(wishList);
     }
 }
