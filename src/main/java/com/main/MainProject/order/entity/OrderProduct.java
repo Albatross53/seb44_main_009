@@ -29,7 +29,7 @@ public class OrderProduct {
 
     @Enumerated(value = EnumType.STRING)
     @Column(length = 20, nullable = false)
-    private Reviewstatus reviewstatus = Reviewstatus.IMPOSSIBLE_REVIEW;
+    private Reviewstatus reviewstatus = Reviewstatus.POSSIBLE_REVIEW;
 
     public enum Reviewstatus{
         IMPOSSIBLE_REVIEW("리뷰 작성 불가"),
