@@ -23,7 +23,7 @@ public class Order extends Auditable {
 
     @Enumerated(value = EnumType.STRING)
     @Column(length = 20, nullable = false)
-    private OrderStatus orderStatus= OrderStatus.BEFORE_PAYMENT;
+    private OrderStatus orderStatus= OrderStatus.SHIPPING_COMPLETED;
 
 
     @OneToOne(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)

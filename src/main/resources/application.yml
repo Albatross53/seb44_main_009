@@ -5,14 +5,11 @@ spring:
     active: rds #실행 profile 설정
   jpa:
     hibernate:
-      ddl-auto: update  # (1) 스키마 자동 생성 자동 업데이트
-    show-sql: true      # (2) SQL 쿼리 출력
-    properties:
-      hibernate:
-        format_sql: true  # (3) SQL pretty print
-#  sql:
-#    init:
-#      data-locations: classpath:data.sql
+      ddl-auto: update
+      org:
+        hibernate:
+          # 로그 레벨을 INFO로 설정
+          level: INFO
 cloud:
   aws:
     credentials:
