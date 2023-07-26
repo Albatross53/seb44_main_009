@@ -6,6 +6,9 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+      properties:
+        hibernate:
+          format_sql: true  # (3) SQL pretty print
       org:
         hibernate:
           # 로그 레벨을 INFO로 설정

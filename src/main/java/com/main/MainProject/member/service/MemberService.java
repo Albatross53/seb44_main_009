@@ -7,6 +7,7 @@ import com.main.MainProject.exception.ExceptionCode;
 import com.main.MainProject.exception.LogicalException;
 import com.main.MainProject.member.entity.Member;
 import com.main.MainProject.member.repository.MemberRepository;
+import com.main.MainProject.wishlist.service.WishListService;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -21,17 +22,19 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final CartService cartService;
     private final PasswordEncoder passwordEncoder;
+
+    private final WishListService wishListService;
     private final ApplicationEventPublisher publisher;
     private final CustomAuthorityUtils authorityUtils;
     private final S3Uploader s3Uploader;
 
-
-    public MemberService(MemberRepository memberRepository, CartService cartService,
-                         PasswordEncoder passwordEncoder, ApplicationEventPublisher publisher,
+    public MemberService(MemberRepository memberRepository, CartService cartService, PasswordEncoder passwordEncoder,
+                         WishListService wishListService, ApplicationEventPublisher publisher,
                          CustomAuthorityUtils authorityUtils, S3Uploader s3Uploader) {
         this.memberRepository = memberRepository;
         this.cartService = cartService;
         this.passwordEncoder = passwordEncoder;
+        this.wishListService = wishListService;
         this.publisher = publisher;
         this.authorityUtils = authorityUtils;
         this.s3Uploader = s3Uploader;
@@ -51,6 +54,7 @@ public class MemberService {
 
         Member savedMember = memberRepository.save(member);
         cartService.createCart(savedMember);
+        wishListService.createWishList(member);
 
         return savedMember;
     }
@@ -91,17 +95,16 @@ public class MemberService {
                 .orElseThrow(() -> new LogicalException(ExceptionCode.MEMBER_NOT_FOUND));
     }
 
-    public Member updateMember(Member member, long memberId) /*, MultipartFile image) throws IOException*/ {
+    public Member updateMember(Member member, long memberId, MultipartFile image) throws IOException {
         Member findMember = findVerifiedMember(memberId);
 
-        //이미지 추가 부분
-//        if(!image.isEmpty()) {
-//            String storedFileName = s3Uploader.upload(image, "member", findMember.getMemberId());
-//            findMember.setMemberImageName(storedFileName);
-//        }
+        if(!image.isEmpty()) {
+            String storedFileName = s3Uploader.upload(image, "member", findMember.getMemberId());
+            findMember.setMemberImageName(storedFileName);
+        }
 
         Optional.ofNullable(member.getKorName())
-                .ifPresent(korName -> findMember.setKorName(korName));
+                        .ifPresent(korName -> findMember.setKorName(korName));
 
         Optional.ofNullable(member.getEmail())
                 .ifPresent(email -> findMember.setEmail(email));
@@ -118,9 +121,9 @@ public class MemberService {
         Optional.ofNullable(member.getPersonalColor())
                 .ifPresent(personalColor -> findMember.setPersonalColor(personalColor));
 
-//        Optional.ofNullable(member.getPassword())
-//                .ifPresent(password -> findMember.setPassword(password));
+        Optional.ofNullable(member.getPassword())
+                .ifPresent(password -> findMember.setPassword(password));
 
-        return memberRepository.save(findMember);
+         return memberRepository.save(findMember);
     }
 }
