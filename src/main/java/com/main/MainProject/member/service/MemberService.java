@@ -121,8 +121,8 @@ public class MemberService {
         Optional.ofNullable(member.getPersonalColor())
                 .ifPresent(personalColor -> findMember.setPersonalColor(personalColor));
 
-//        Optional.ofNullable(member.getPassword())
-//                .ifPresent(password -> findMember.setPassword(password));
+        Optional.ofNullable(member.getPassword())
+                .ifPresent(password -> findMember.setPassword(passwordEncoder.encode(password)));
 
          return memberRepository.save(findMember);
     }
